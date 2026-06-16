@@ -5,6 +5,7 @@ from openai import OpenAI
 st.set_page_config(page_title="Koushik's AI Summarizer", page_icon="📝", layout="centered")
 
 # --- API Client ---
+# Ensure GROQ_API_KEY is saved in your Streamlit Cloud Settings > Secrets
 client = OpenAI(
     base_url="https://api.groq.com/openai/v1",
     api_key=st.secrets["GROQ_API_KEY"]
@@ -31,8 +32,9 @@ if st.button("Generate Summary ✨", type="primary"):
     else:
         with st.spinner("Analyzing text..."):
             try:
+                # Updated model ID to a currently supported version
                 response = client.chat.completions.create(
-                    model="llama3-8b-8192",
+                    model="llama-3.3-70b-versatile",
                     messages=[
                         {"role": "system", "content": "You are an expert editor. Summarize the provided text into 3-5 clear, concise bullet points. Do not include any introductory fluff."},
                         {"role": "user", "content": source_text}
